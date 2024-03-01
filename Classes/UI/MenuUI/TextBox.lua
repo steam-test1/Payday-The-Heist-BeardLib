@@ -86,7 +86,9 @@ end
 function TextBox:MouseReleased(b, x, y)
 	self._textbox:MouseReleased(b, x, y)
 	if self._last_mouse_position then
-		managers.mouse_pointer:set_mouse_world_position(unpack(self._last_mouse_position))
+		if managers.mouse_pointer.set_mouse_world_position then
+			managers.mouse_pointer:set_mouse_world_position(unpack(self._last_mouse_position))
+		end
 		self._last_mouse_position = nil
 	end
 	managers.mouse_pointer._ws:show()
@@ -107,10 +109,10 @@ function TextBox:SetValueByMouseXPos(x)
 		local move = 0
 		local pointer = managers.mouse_pointer
 		pointer._ws:hide()
-        if pointer._mouse:world_x() == self.menu._panel:w() then
+        if pointer and pointer._mouse:world_x() == self.menu._panel:w() then
             pointer:set_mouse_world_position(1, pointer._mouse:world_y())
             self.ignore_next = true
-        elseif pointer._mouse:world_x() == 0 then
+        elseif pointer and pointer._mouse:world_x() == 0 then
             pointer:set_mouse_world_position(self.menu._panel:w() - 1, pointer._mouse:world_y())
             self.ignore_next = true
         else
