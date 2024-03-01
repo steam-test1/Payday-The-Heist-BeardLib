@@ -357,11 +357,15 @@ function ContextMenu:MouseMoved(x, y)
     end
     local _, pointer = self._scroll:mouse_moved(nil, x, y)
     if pointer then
-        managers.mouse_pointer:set_pointer_image(pointer)
+        if managers.mouse_pointer.set_pointer_image then
+            managers.mouse_pointer:set_pointer_image(pointer)
+        end
         self:CheckItems()
         return true
     else
-        managers.mouse_pointer:set_pointer_image("arrow")
+        if managers.mouse_pointer.set_pointer_image then
+            managers.mouse_pointer:set_pointer_image("arrow")
+        end
     end
     for k, item in pairs(self._visible_items) do
         if alive(item) then
