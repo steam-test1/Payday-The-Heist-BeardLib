@@ -100,7 +100,6 @@
 			<hooks directory="UI">
 				<hook source_file="lib/managers/menu/menucomponentmanager" file="BeardLibModsMenuButton.lua"/>
 				<hook source_file="lib/managers/menu/menuinput" file="MenuInput.lua"/>
-				<hook source_file="lib/managers/menu/scrollablepanel" file="ScrollablePanel.lua"/>
 				<hook source_file="lib/managers/menumanager" file="MenuManager.lua"/>
 				<hook source_file="lib/managers/systemmenumanager" file="SystemMenuManager.lua"/>
 			</hooks>
@@ -151,6 +150,8 @@
 			<classes directory="UI">
 				<class file="AchievementMenu.lua"/>
 				<class file="ModsMenu.lua"/>
+				<class file="ScrollablePanel.lua"/>
+				<class file="MenuItemColorButton.lua"/>
 	
 				<classes directory="Dialogs">
 					<class file="MenuDialog.lua"/>
