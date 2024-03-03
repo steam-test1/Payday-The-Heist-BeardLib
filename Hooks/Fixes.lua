@@ -490,7 +490,7 @@ elseif F == 'ingamewaitingforplayers' then
     end)]]
 elseif F == "playerdamage" then
     Hooks:PostHook(PlayerDamage, "init", "BeardLibPlyDmgInit", function(self)
-        local level_tweak = tweak_data.levels[managers.job:current_level_id()]
+        local level_tweak = tweak_data.levels[Global.level_data.level_id]
 
         if level_tweak and level_tweak.player_invulnerable then
             self:set_mission_damage_blockers("damage_fall_disabled", true)
@@ -665,17 +665,6 @@ elseif F == "menunodecustomizeweaponcolorgui" then
                 end
 
                 color_data.texture = guis_catalog .. "weapon_skins/" .. color_data.value
-            end
-        end
-    end)
-elseif F == "platformmanager" then
-    core:module("PlatformManager")
-    -- Fixes rich presence to work with custom heists by forcing raw status.
-    Hooks:PostHook(WinPlatformManager, "set_rich_presence", "FixCustomHeistStatus", function(self)
-        if not Global.game_settings.single_player and Global.game_settings.permission ~= "private" and name ~= "Idle" and managers.network and managers.network.matchmake.lobby_handler  then
-            local job = managers.job:current_job_data()
-            if job and job.custom and Steam then
-                Steam:set_rich_presence("steam_display", "#raw_status")
             end
         end
     end)
