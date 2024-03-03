@@ -444,18 +444,18 @@ elseif F == "playermovement" then
         end
     end
 elseif F == "dialogmanager" then
-	Hooks:PreHook(DialogManager, "queue_dialog", "BeardLibQueueDialogFixIds", function(self, id)
-		if id and not managers.dialog._dialog_list[id] then
-			local sound = BeardLib.Managers.Sound:GetSound(id)
-			if sound then
-				managers.dialog._dialog_list[id] = {
-					id = id,
-					sound = id,
-					priority = sound.priority and tonumber(sound.priority) or tweak_data.dialog.DEFAULT_PRIORITY
-				}
-			end
-		end
-    end)
+	-- Hooks:PreHook(DialogManager, "queue_dialog", "BeardLibQueueDialogFixIds", function(self, id)
+	-- 	if id and not managers.dialog._dialog_list[id] then
+	-- 		local sound = BeardLib.Managers.Sound:GetSound(id)
+	-- 		if sound then
+	-- 			managers.dialog._dialog_list[id] = {
+	-- 				id = id,
+	-- 				sound = id,
+	-- 				priority = sound.priority and tonumber(sound.priority) or tweak_data.dialog.DEFAULT_PRIORITY
+	-- 			}
+	-- 		end
+	-- 	end
+    -- end)
 elseif F == "networkpeer" then
     local tradable_item_verif = NetworkPeer.tradable_verify_outfit
     function NetworkPeer:tradable_verify_outfit(signature)
