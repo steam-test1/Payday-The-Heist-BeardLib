@@ -67,7 +67,6 @@
 			<hook source_file="lib/tweak_data/tweakdata" file="OtherHooks.lua"/>
 			<hook source_file="lib/tweak_data/tweakdatapd2" file="OtherHooks.lua"/>
 			<hook source_file="lib/units/beings/player/playerdamage" file="Fixes.lua"/>
-			<hook source_file="lib/units/beings/player/playerdamage" file="PlayerDamage.lua"/>
 			<hook source_file="lib/units/beings/player/playermovement" file="Fixes.lua"/>
 			<hook source_file="lib/units/beings/player/states/playerstandard" file="OtherHooks.lua"/>
 			<hook source_file="lib/units/beings/player/states/vr/hand/playerhandstatemelee" file="Fixes.lua"/>
