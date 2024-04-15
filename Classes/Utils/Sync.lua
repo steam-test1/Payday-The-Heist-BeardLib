@@ -11,7 +11,7 @@ function Sync:SyncGameSettings(peer_id)
         else
             LuaNetworking:SendToPeers(sync_game_settings_id, data)
         end
-		managers.platform:refresh_rich_presence_state()
+		-- managers.platform:refresh_rich_presence_state()
     end
 end
 
@@ -49,8 +49,8 @@ function Sync:DownloadMap(level_name, job_id, udata, done_callback)
 					map:DownloadAssets()
 				end},
 				string.len(download_url) > 0 and {"Visit Page", function()
-					if managers.network and managers.network.account and managers.network.account:is_overlay_enabled() then
-						managers.network.account:overlay_activate("url", download_url)
+					if Steam:overlay_enabled() then
+						Steam:overlay_activate("url", download_url)
 					else
 						os.execute("cmd /c start " .. download_url)
 					end
