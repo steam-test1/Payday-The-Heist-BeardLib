@@ -32,7 +32,7 @@ function WorldDefinition:_load_world_package(...)
             if level_tweak.custom_packages then
                 self._custom_loaded_packages = self._custom_loaded_packages or {}
                 for _, package in ipairs(level_tweak.custom_packages) do
-                    self:do_package_load(package.."_init")
+                    -- self:do_package_load(package.."_init")
                     self:do_package_load(package)
                 end
             end

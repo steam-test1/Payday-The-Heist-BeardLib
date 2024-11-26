@@ -9,6 +9,7 @@ function BeardLibPackageManager:init()
     self.unload_on_restart_packages = {}
 
      -- Deprecated, try not to use.
+    CustomPackageManager = self
     BeardLib.managers.package = self
 end
 

@@ -313,3 +313,7 @@ function table.list_to_set(list)
 
 	return rtn
 end
+
+function table.random(t)
+	return t[math.random(#t)]
+end

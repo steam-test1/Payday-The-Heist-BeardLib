@@ -15,21 +15,21 @@ local ids_unit = Idstring("unit")
 local key_unit = ids_unit:key()
 local Managers = BeardLib.Managers
 
-overwrite_meta_function(World, "spawn_unit", function(self, unit_name, ...)
-	if unit_name then
-		local ukey = unit_name:key()
-		if ukey == "0d8ea9bdcebaaf64" then
-			Managers.File:LoadAsset(ids_unit, unit_name)
-		elseif Global.fm.added_files[key_unit] then
-			local file = Global.fm.added_files[key_unit][ukey]
-			if file then
-				Managers.File:LoadAsset(ids_unit, unit_name, file.file)
-			end
-		end
-	end
-	--STOP REPORTING THIS AS A BEARLID ISSUE PLEASE
-	return self:_spawn_unit(unit_name, ...)
-end)
+-- overwrite_meta_function(World, "spawn_unit", function(self, unit_name, ...)
+-- 	if unit_name then
+-- 		local ukey = unit_name:key()
+-- 		if ukey == "0d8ea9bdcebaaf64" then
+-- 			Managers.File:LoadAsset(ids_unit, unit_name)
+-- 		elseif Global.fm.added_files[key_unit] then
+-- 			local file = Global.fm.added_files[key_unit][ukey]
+-- 			if file then
+-- 				Managers.File:LoadAsset(ids_unit, unit_name, file.file)
+-- 			end
+-- 		end
+-- 	end
+-- 	--STOP REPORTING THIS AS A BEARLID ISSUE PLEASE
+-- 	return self:_spawn_unit(unit_name, ...)
+-- end)
 
 local ids_effect = Idstring("effect")
 local key_effect = ids_effect:key()
