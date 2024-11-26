@@ -54,7 +54,7 @@ function BeardLibModsMenu:CreateItems(menu)
         count_as_aligned = true,
         size = 32
     })
-    local text =  self._top:FitDivider({
+    self._top:FitDivider({
         name = "title",
         size = 24,
         position = "Centery",
@@ -189,7 +189,7 @@ function BeardLibModsMenu:AddMod(mod, framework)
             alone_in_row = true,
 			auto_foreground = auto_color,
             count_as_aligned = true,
-            texture = img or "guis/textures/pd2/none_icon",
+            texture = img or "guis/textures/none_icon",
             position = "CenterTop"
         })
     end
@@ -273,6 +273,9 @@ function BeardLibModsMenu:AddMod(mod, framework)
             })
         end
     else
+        if updates[1] then
+            text("Title", loc:text("beardlib_version", {version = tostring(updates[1].version)}), {text_align = "center"})
+        end
         mod_item:Button({
             name = "Download",
             on_callback = ClassClbk(self, "BeginModDownload", updates[1]),
@@ -600,7 +603,7 @@ function BeardLibModsMenu:SetModNeedsUpdate(module, new_version)
                 if item.update == module then
                     item:SetIndex(1)
                     local download = item:GetItem("Download")
-                    download.help = new_version
+                    download.help = tostring(new_version)
                     download:SetEnabled(true)
                 end
             end
@@ -611,7 +614,7 @@ function BeardLibModsMenu:SetModNeedsUpdate(module, new_version)
     else
         mod.NeedsUpdate = true
     end
-    if not table.contains(self._waiting_for_update, mod) then
+    if not table.has(self._waiting_for_update, mod) then
         table.insert(self._waiting_for_update, mod)
     end
     self._notif_id = self._notif_id or BLT.Notifications:add_notification({title = loc:text("beardlib_updates_available"), text = loc:text("beardlib_updates_available_desc"), priority = 1})

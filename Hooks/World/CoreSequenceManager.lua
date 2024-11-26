@@ -1,8 +1,8 @@
 if CoreSequenceManager then
-	SequenceManager = CoreSequenceManager.SequenceManager
+    SequenceManager = CoreSequenceManager.SequenceManager
 
 	Hooks:Register("BeardLibCreateScriptDataMods")
-    Hooks:PostHook(CoreSequenceManager.SequenceManager, "init", "BeardLibSequenceManagerPostInit", function() 
+    Hooks:PostHook(CoreSequenceManager.SequenceManager, "init", "BeardLibSequenceManagerPostInit", function()
         Hooks:Call("BeardLibCreateScriptDataMods")
     end)
 
@@ -24,7 +24,6 @@ if CoreSequenceManager then
 			Application:set_material_texture(new_material, Idstring("diffuse_texture"), texture)
 		end
 	end
-
 	--Fixes some random crash
 	local BodyElement = CoreSequenceManager.BodyElement
 	function BodyElement.load(unit, data)

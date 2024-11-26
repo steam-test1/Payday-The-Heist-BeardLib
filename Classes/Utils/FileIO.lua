@@ -77,13 +77,7 @@ end
 function FileIO:ReadConfig(path, tbl)
 	local file = self:Open(path, "r")
 	if file then
-		local config
-
-		if ScriptSerializer then
-			config = ScriptSerializer:from_custom_xml(file:read("*all"))
-		else
-			config = BLTXMLReadConfig(file:read("*all"))
-		end
+		local config = ScriptSerializer:from_custom_xml(file:read("*all"))
 
 		if tbl then
 			for i, var in pairs(config) do
@@ -193,7 +187,7 @@ function FileIO:CopyFileTo(path, to_path)
 	end
 end
 
-function FileIO:CopyTo(path, to_path) 
+function FileIO:CopyTo(path, to_path)
 	os.execute(string.format("xcopy \"%s\" \"%s\" /e /i /h /y /c", path, to_path))
 end
 
@@ -260,13 +254,13 @@ function FileIO:Delete(path)
 	end
 end
 
-function FileIO:DeleteEmptyFolders(path, delete_current) 
+function FileIO:DeleteEmptyFolders(path, delete_current)
 	for _, folder in pairs(self:GetFolders(path)) do
 		self:DeleteEmptyFolders(Path:Combine(path, folder), true)
 	end
 	if delete_current then
 		if #self:GetFolders(path) == 0 and #self:GetFiles(path) == 0 then
-			self:Delete(path)	
+			self:Delete(path)
 		end
 	end
 end

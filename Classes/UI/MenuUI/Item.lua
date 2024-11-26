@@ -404,7 +404,7 @@ function Item:Highlight()
         return
     end
     self:DoHighlight(true)
-	if managers.mouse_pointer.set_pointer_image then
+    if managers.mouse_pointer and managers.mouse_pointer.set_pointer_image then
     	managers.mouse_pointer:set_pointer_image("link")
 	end
     if self.menu._highlighted and self.menu._highlighted ~= self then
@@ -1020,7 +1020,7 @@ function Item:_SetText(text)
 		local border_y = self.border_top and (self.border_width or self.border_size) or 0
 		local border_r = self.border_right and (self.border_height or self.border_size) or 0
 		local border_b = self.border_bottom and (self.border_width or self.border_size) or 0
-		
+
 		if self.offset_ignore_border then
 			border_x, border_y, border_r, border_b = 0,0,0,0
 		end
@@ -1057,7 +1057,7 @@ function Item:_SetText(text)
 			end
 			title:set_w(self.panel:w() - offset_x - offset_r)
         end
-		
+
         return true
     end
     return false

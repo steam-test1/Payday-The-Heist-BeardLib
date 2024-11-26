@@ -11,14 +11,17 @@ FrameworkBase = FrameworkBase or BeardLib:Class()
 FrameworkBase._directory = BLTModManager.Constants.mods_directory or "mods/"
 FrameworkBase._format = Path:Combine(FrameworkBase._directory, "%s", "main.xml")
 FrameworkBase._mod_core = ModCore
-FrameworkBase._ignore_folders = {["base"] = true, ["BeardLib"] = true, ["PAYDAY-2-BeardLib-master"] = true, ["downloads"] = true, ["logs"] = true, ["saves"] = true}
+FrameworkBase._ignore_folders = {["base"] = true, ["BeardLib"] = true, ["PAYDAY-2-BeardLib-master"] = true, ["Payday-The-Heist-BeardLib"] = true, ["Payday-The-Heist-BeardLib-main"] = true, ["downloads"] = true, ["logs"] = true, ["saves"] = true}
 FrameworkBase._ignore_detection_errors = true
 
 FrameworkBase.main_file_name = "main.xml"
+FrameworkBase.add_file = "add.xml"
 FrameworkBase.loading_scene_file_name = "enable_in_loading_scene"
 FrameworkBase.auto_init_modules = true
 FrameworkBase.type_name = "Base"
 FrameworkBase.menu_color = Color(0.6, 0, 1)
+FrameworkBase.add_configs = {}
+FrameworkBase._loaded_instances = {}
 
 function FrameworkBase:init()
 	Hooks:Call("BeardLibFrameworksInit", self)
@@ -88,6 +91,9 @@ function FrameworkBase:FindMods()
             if not self._ignore_folders[folder_name] then
                 local directory = path:CombineDir(self._directory, folder_name)
                 local main_file = path:Combine(directory, self.main_file_name)
+				local add_file = path:Combine(directory, self.add_file)
+
+				-- Read main.xml
                 if FileIO:Exists(main_file) then
                     local do_load = not self._loaded_mods[folder_name]
 
@@ -105,6 +111,14 @@ function FrameworkBase:FindMods()
                     self:log("Could not read %s", main_file)
                     self._ignored_configs[main_file] = true
                 end
+
+				-- Read add.xml
+				if FileIO:Exists(add_file) then
+					local config = FileIO:ReadConfig(add_file)
+					local directory = config.full_directory or Path:Combine(directory, config.directory)
+					BeardLib.Managers.Package:LoadConfig(directory, config)
+					self.add_configs[directory] = config
+				end
             end
         end
 	end

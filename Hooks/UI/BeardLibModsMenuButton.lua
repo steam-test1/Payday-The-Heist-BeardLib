@@ -77,7 +77,9 @@ Hooks:PostHook(BLTNotificationsGui, "_setup", "BeardLibModsManagerSetup", functi
 end)
 
 Hooks:PostHook(BLTNotificationsGui, "close", "BeardLibPanelClose", function(self)
-    self._ws:panel():remove(self._beardlib_panel)
+    if self._ws then
+        self._ws:panel():remove(self._beardlib_panel)
+    end
 end)
 
 Hooks:PostHook(BLTNotificationsGui, "update", "BeardLibModsManagerUpdate", function(self)

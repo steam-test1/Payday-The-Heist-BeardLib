@@ -4,11 +4,9 @@ end
 
 BeardLib = {
 	Name = "BeardLib",
-	ModPath = BeardLibModPath or ModPath,
+	ModPath = ModPath,
 	SavePath = SavePath
 }
-
-BeardLibModPath = nil
 
 function BeardLib:Init()
 	Hooks:Call("BeardLibPreInit")
@@ -32,16 +30,16 @@ function BeardLib:Init()
 
 	self._classes_to_init = {}
 
+
 	dofile(self.ModPath.."Classes/Utils/FileIO.lua")
 	dofile(self.ModPath.."Classes/Utils/Utils.lua")
 	dofile(self.ModPath.."Classes/Utils/Path.lua")
+	dofile(self.ModPath.."Classes/Utils/Version.lua")
 	self._config = FileIO:ReadConfig(self.ModPath.."main.xml", self)
 	self.config = self._config
 
-	if not CoreLoadingSetup then
-		FileIO:MakeDir(self._config.maps_dir)
-		FileIO:MakeDir(self._config.mod_override_dir)
-	end
+	FileIO:MakeDir(self._config.maps_dir)
+	FileIO:MakeDir(self._config.mod_override_dir)
 
 	self:LoadClasses()
 	self:LoadModules()
@@ -66,20 +64,20 @@ function BeardLib:Init()
 		end
 	end
 
-	self.Version = tonumber(self.config.version)
+	self.Version = Version:new(self.config.version)
 	self.DevMode = self.Options:GetValue("DevMode")
 	self.LogSounds = self.Options:GetValue("LogSounds")
 	self.OptimizedMusicLoad = BeardLib.Options:GetValue("OptimizedMusicLoad")
 
 	if ModAssetsModule then
 		if self.Options:GetValue("GithubUpdates") then
-			local module = ModAssetsModule:new(self, {id = "simon-wh/PAYDAY-2-BeardLib", _meta = "AssetUpdates", important = true, provider = "github", branch = "master"})
-			self[module._name] = module
-			table.insert(self._modules, module)
+			-- local module = ModAssetsModule:new(self, {id = "simon-wh/PAYDAY-2-BeardLib", _meta = "AssetUpdates", important = true, provider = "github", branch = "master"})
+			-- self[module._name] = module
+			-- table.insert(self._modules, module)
 		else
-			local module = ModAssetsModule:new(self, {id = 14924, version = self.config.version, _meta = "AssetUpdates", important = true, provider = "modworkshop"})
-			self[module._name] = module
-			table.insert(self._modules, module)
+			-- local module = ModAssetsModule:new(self, {id = 14924, semantic_version = true, version = self.config.version, _meta = "AssetUpdates", important = true, provider = "modworkshop"})
+			-- self[module._name] = module
+			-- table.insert(self._modules, module)
 		end
 	end
 
@@ -103,14 +101,12 @@ function BeardLib:Init()
 end
 
 function BeardLib:LoadClasses(config, prev_dir)
-	local wanted_meta = CoreLoadingSetup and "loading_classes" or "classes"
-
-	config = config or self._config[wanted_meta]
+	config = config or self._config.classes
 	local dir = Path:Combine(prev_dir or self.ModPath, config.directory)
     for _, c in ipairs(config) do
 		if c._meta == "class" then
-			self:DevLog("Loading class", tostring(p))
-			dofile(dir and Path:Combine(dir, c.file) or file)
+			self:DevLog("Loading class %s", tostring(c.file))
+			dofile(dir and Path:Combine(dir, c.file) or c.file)
 		elseif c._meta == "classes" then
 			self:LoadClasses(c, dir)
         end
@@ -132,15 +128,7 @@ function BeardLib:LoadModules(config, dir)
 	if modules then
 		table.sort(modules) -- Sort for predicatable order on different file systems
 		for _, mdle in pairs(modules) do
-			local dopath = Path:Combine(dir, mdle)
-			if CoreLoadingSetup then
-				local module_name = mdle:match("(.+)%..+")
-				if config[module_name] then
-					dofile(dopath)
-				end
-			else
-				dofile(dopath)
-			end
+			dofile(Path:Combine(dir, mdle))
 		end
 		local folders = FileIO:GetFolders(dir)
 		table.sort(folders) -- Sort for predicatable order on different file systems

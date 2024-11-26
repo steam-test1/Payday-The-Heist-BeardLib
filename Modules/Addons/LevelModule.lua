@@ -1,26 +1,7 @@
-if CoreLoadingSetup then
-    LevelModule = LevelModule or BeardLib:ModuleClass("level", ItemModuleBase)
-    LevelModule.levels_folder = "levels/mods/"
-
-    function LevelModule:init(...)
-        if not LevelModule.super.init(self, ...) then  return false end
-
-        if arg and arg.load_level_data and arg.load_level_data.level_data and arg.load_level_data.level_data.level_id == self._config.id then
-            self:Load()
-        end
-    end
-
-    function LevelModule:Load()
-        if self._config.hooks then
-            HooksModule:new(self._mod, self._config.hooks)
-        end
-    end
-
-    return
-end
-
 LevelModule = LevelModule or BeardLib:ModuleClass("level", ItemModuleBase)
 LevelModule.levels_folder = "levels/mods/"
+
+BeardLib:RegisterModule("Level", LevelModule)
 
 local TEXTURE = Idstring("texture")
 
@@ -148,7 +129,6 @@ function LevelModule:AddLevelDataToTweak(l_self)
         name_id = self._config.name_id or ("heist_" .. id .. "_name"),
         briefing_id = self._config.brief_id or ("heist_" .. id .. "_brief"),
         world_name = self._levels_less_path,
-        ai_group_type = l_self.ai_groups[self._config.ai_group_type] or l_self.ai_groups.default,
         intro_event = self._config.intro_event or "nothing",
         outro_event = self._config.outro_event or "nothing",
         music = self._config.music or "heist",
@@ -162,34 +142,6 @@ function LevelModule:AddLevelDataToTweak(l_self)
 	if not table.contains(l_self._level_index, id) then
 		table.insert(l_self._level_index, id)
 	end
-end
-
-function LevelModule:AddAssetsDataToTweak(a_self)
-    for _, value in ipairs(self._config.assets) do
-		if value._meta == "asset" then
-			local exclude = value.exclude
-			local asset = a_self[value.name]
-			if asset ~= nil then
-				if (exclude and asset.exclude_stages ~= "all") or (not exclude and asset.stages ~= "all") then
-					asset.exclude_stages = asset.exclude_stages or {}
-					asset.stages = asset.stages or {}
-					table.insert(exclude and asset.exclude_stages or asset.stages, self._config.id)
-				end
-            else
-                self:Err("Asset %s does not exist! (Map: %s)", value.name, name)
-            end
-        else
-            if not a_self[value._meta] then
-                a_self[value._meta] = value
-            else
-                self:Err("Asset with name: %s already exists! (Map: %s)", value._meta, name)
-            end
-        end
-    end
-end
-
-function LevelModule:AddPrePlanningDataToTweak(pp_self)
-    pp_self.locations[self._config.id] = self._config.preplanning
 end
 
 function LevelModule:RegisterHook()
@@ -209,38 +161,14 @@ function LevelModule:RegisterHook()
             local equipments = EquipmentsModule:new(self._mod, self._config.equipments)
             equipments:RegisterHook()
         end
-
-        if self._config.lootbags then
-            local lootbags = LootBagsModule:new(self._mod, self._config.lootbags)
-            lootbags:RegisterHook()
-        end
-		
-		if self._config.hudicon then
-            local hudicon = HUDIconModule:new(self._mod, self._config.hudicon)
-            hudicon:RegisterHook()
-        end
-
-        if self._config.assets then
-            if tweak_data and tweak_data.assets then
-                self:AddAssetsDataToTweak(tweak_data.assets)
-            else
-                Hooks:PostHook(AssetsTweakData, "init", self._config.id .. "AddAssetsData", ClassClbk(self, "AddAssetsDataToTweak"))
-            end
-        end
-
-        if self._config.preplanning then
-            if tweak_data and tweak_data.preplanning then
-                self:AddPrePlanningDataToTweak(tweak_data.preplanning)
-            else
-                Hooks:PostHook(PrePlanningTweakData, "init", self._config.id .. "AddPrePlanningData", ClassClbk(self, "AddPrePlanningDataToTweak"))
-            end
-        end
     end
 end
 
 InstanceModule = InstanceModule or BeardLib:ModuleClass("instance", LevelModule)
 InstanceModule.levels_folder = "levels/instances/mods/"
 InstanceModule._loaded_packages = {}
+
+BeardLib:RegisterModule("Instance", InstanceModule)
 
 function InstanceModule:init(...)
     if not LevelModule.super.init(self, ...) then
@@ -255,7 +183,7 @@ function InstanceModule:init(...)
     self._levels_less_path = self._inner_dir:gsub("levels/", "")
     self._level_dir = "levels/instances/"..self._config.id
     self._world_path = Path:Combine(self.levels_folder, self._config.id, "world")
-    BeardLib.Frameworks.Map._loaded_instances[self._world_path] = self --long ass line
+    BeardLib.Frameworks.Base._loaded_instances[self._world_path] = self --long ass line
 
     return true
 end
@@ -296,7 +224,7 @@ function InstanceModule:RegisterHook()
         local lootbags = LootBagsModule:new(self._mod, self._config.lootbags)
         lootbags:RegisterHook()
     end
-    
+
 end
 
 function InstanceModule:Load()

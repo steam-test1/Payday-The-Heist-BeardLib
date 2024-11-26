@@ -105,6 +105,10 @@ function MouseInput:Id(str) return str end
 --Controller
 local ControllerInput = clone(InputUtils)
 BeardLib.Utils.ControllerInput = ControllerInput
-function ControllerInput:Class()
-    return Input:keyboard()
+function ControllerInput:Class() 
+    if managers.menu and managers.menu:active_menu() and managers.menu:active_menu().input then
+        return managers.menu:active_menu().input:get_controller() 
+    else
+        return Input:keyboard()
+    end
 end

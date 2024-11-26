@@ -303,17 +303,7 @@ function table.delete_value(tbl, value)
 	end
 end
 
---Missing functions from PDTH
-function table.random(t)
-	return t[math.random(#t)]
-end
-
-function table.set(...)
-	return table.list_to_set({
-		...
-	})
-end
-
+-- From Payday 2
 function table.list_to_set(list)
 	local rtn = {}
 

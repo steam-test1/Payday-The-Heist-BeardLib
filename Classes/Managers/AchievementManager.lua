@@ -2,7 +2,8 @@ BeardLibAchievementManager = BeardLibAchievementManager or BeardLib:ManagerClass
 
 function BeardLibAchievementManager:init()
     -- Support multiple user on same PC, tracking each progress
-    self._achievements_folder = SavePath .. "CustomAchievements/" ..tostring(Steam:userid()).."/"
+    local user_id = Steam and Steam:userid() or "unknown"
+    self._achievements_folder = SavePath .. "CustomAchievements/" ..tostring(user_id).."/"
     self._achievement_icons_spoofer = {}
     self._ranks = {
         [1] = {name = "Bronze", color = "CD7F32"},
@@ -14,7 +15,6 @@ function BeardLibAchievementManager:init()
 
     -- Deprecated, try not to use.
     BeardLib.managers.custom_achievement = self
-    CustomAchievementManager = self
 
     Hooks:Add("SetupInitManagers", "PostInitTweakData_BeardLibAchievementManager", ClassClbk(self, "SetupAchievements"))
 end

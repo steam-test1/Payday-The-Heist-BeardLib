@@ -1,5 +1,5 @@
 local BeardLib = BeardLib
-local Framework = BeardLib.Frameworks.Map
+local Framework = BeardLib.Frameworks.Base
 local Hooks = Hooks
 
 core:module("CoreWorldDefinition")
@@ -14,13 +14,13 @@ function WorldDefinition:init(...)
 end
 
 function WorldDefinition:do_package_load(pkg)
-    if PackageManager:package_exists(pkg) then
+    -- if PackageManager:package_exists(pkg) then
         if not PackageManager:loaded(pkg) then
             PackageManager:load(pkg)
             --BeardLib:log("Loaded package: "..pkg)
         end
         table.insert(self._custom_loaded_packages, pkg)
-    end
+    -- end
 end
 
 local WorldDefinition_load_world_package = WorldDefinition._load_world_package
@@ -75,23 +75,23 @@ function WorldDefinition:unload_packages(...)
     end
 end
 
--- local WorldDefinition_load_continent_init_package = WorldDefinition._load_continent_init_package
--- function WorldDefinition:_load_continent_init_package(path, ...)
---     if not PackageManager:package_exists(path) then
---         return
---     end
+local WorldDefinition_load_continent_init_package = WorldDefinition._load_continent_init_package
+function WorldDefinition:_load_continent_init_package(path, ...)
+    -- if not PackageManager:package_exists(path) then
+    --     return
+    -- end
 
---     WorldDefinition_load_continent_init_package(self, path, ...)
--- end
+    WorldDefinition_load_continent_init_package(self, path, ...)
+end
 
--- local WorldDefinition_load_continent_package =  WorldDefinition._load_continent_package
--- function WorldDefinition:_load_continent_package(path, ...)
---     if not PackageManager:package_exists(path) then
---         return
---     end
+local WorldDefinition_load_continent_package =  WorldDefinition._load_continent_package
+function WorldDefinition:_load_continent_package(path, ...)
+    -- if not PackageManager:package_exists(path) then
+    --     return
+    -- end
 
---     WorldDefinition_load_continent_package(self, path, ...)
--- end
+    WorldDefinition_load_continent_package(self, path, ...)
+end
 
 function WorldDefinition:convert_mod_path(path)
     if Global.level_data then

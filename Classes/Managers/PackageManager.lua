@@ -9,7 +9,6 @@ function BeardLibPackageManager:init()
     self.unload_on_restart_packages = {}
 
      -- Deprecated, try not to use.
-    CustomPackageManager = self
     BeardLib.managers.package = self
 end
 
@@ -133,6 +132,11 @@ BeardLibPackageManager.EXT_CONVERT = {dds = "texture", png = "texture", tga = "t
 
 local CP_DEFAULT = BeardLib:GetPath() .. "Assets/units/default_cp.cooked_physics"
 function BeardLibPackageManager:LoadConfig(directory, config, mod, settings)
+    if not (SystemFS and SystemFS.exists) then
+        self:Err("SystemFS does not exist! Custom packages cannot function without this! Do you have an outdated game version?")
+        return
+	end
+
 	if not DB.create_entry then
 		self:Err("Create entry function does not exist, cannot add files.")
 		return
@@ -311,7 +315,7 @@ function BeardLibPackageManager:UnloadConfig(config)
                         Managers.File:RemoveFile(ids_ext, ids_path)
                     end
                 end
-                
+
                 path = Path:Normalize(path)
                 local ids_path = Idstring(path)
                 local auto_cp = NotNil(child.auto_cp, config.auto_cp, true)
@@ -320,7 +324,7 @@ function BeardLibPackageManager:UnloadConfig(config)
                 if auto_cp then
                     unload(COOKED_PHYSICS_IDS, ids_path)
                 end
-                
+
                 unload(MODEL_IDS, ids_path)
                 unload(OBJECT_IDS, ids_path)
 

@@ -32,8 +32,7 @@ function MenuMusicModule:RegisterHook()
 				tracks = {
 					{
 						source = self:MakeBuffer(self._config.source),
-						start_source = self:MakeBuffer(self._config.start_source),
-						volume = self._config.volume
+						start_source = self:MakeBuffer(self._config.start_source)
 					}
 				}
 			}

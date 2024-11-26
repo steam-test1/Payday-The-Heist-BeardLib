@@ -140,7 +140,7 @@ function ContextMenu:CreateItems()
 end
 
 function ContextMenu:hide()
-    if self.owner.close_callback then self.owner:RunCallback(self.owner.close_callback) end   
+    if self.owner.close_callback then self.owner:RunCallback(self.owner.close_callback) end
     if self:alive() then
         self.panel:hide()
     end
