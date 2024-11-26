@@ -17,11 +17,13 @@ function MapFramework:init()
 end
 
 function MapFramework:RegisterHooks(...)
-	self:AddCustomContact()
+	-- self:AddCustomContact()
     MapFramework.super.RegisterHooks(self, ...)
-    Hooks:PostHook(NarrativeTweakData, "init", "MapFrameworkAddFinalNarrativeData", SimpleClbk(NarrativeTweakData.set_job_wrappers))
+    Hooks:PostHook(LevelsTweakData, "init", "MapFrameworkAddFinalLevelData", SimpleClbk(LevelsTweakData.get_level_index))
 end
 
+---@deprecated
+---Use BeardLib.Utils:GetMapByJobId instead
 function MapFramework:GetMapByJobId(job_id)
     for _, map in pairs(self._loaded_mods) do
         if map._modules then
@@ -35,12 +37,12 @@ function MapFramework:GetMapByJobId(job_id)
     return nil
 end
 
-function MapFramework:AddCustomContact()
-    ContactModule:new(BeardLib, {
-        id = "custom",
-        name_id = "heist_contact_custom",
-        description_id = "heist_contact_custom_description",
-        package = "packages/contact_bain",
-        assets_gui = "guis/mission_briefing/preload_contact_bain"
-    }):RegisterHook()
-end
+-- function MapFramework:AddCustomContact()
+--     ContactModule:new(BeardLib, {
+--         id = "custom",
+--         name_id = "heist_contact_custom",
+--         description_id = "heist_contact_custom_description",
+--         package = "packages/contact_bain",
+--         assets_gui = "guis/mission_briefing/preload_contact_bain"
+--     }):RegisterHook()
+-- end

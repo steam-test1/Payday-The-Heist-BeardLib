@@ -35,6 +35,7 @@ function BeardLib:Init()
 	dofile(self.ModPath.."Classes/Utils/FileIO.lua")
 	dofile(self.ModPath.."Classes/Utils/Utils.lua")
 	dofile(self.ModPath.."Classes/Utils/Path.lua")
+	dofile(self.ModPath.."Classes/Utils/Version.lua")
 	self._config = FileIO:ReadConfig(self.ModPath.."main.xml", self)
 	self.config = self._config
 
@@ -66,20 +67,20 @@ function BeardLib:Init()
 		end
 	end
 
-	self.Version = tonumber(self.config.version)
+	self.Version = Version:new(self.config.version)
 	self.DevMode = self.Options:GetValue("DevMode")
 	self.LogSounds = self.Options:GetValue("LogSounds")
 	self.OptimizedMusicLoad = BeardLib.Options:GetValue("OptimizedMusicLoad")
 
 	if ModAssetsModule then
 		if self.Options:GetValue("GithubUpdates") then
-			local module = ModAssetsModule:new(self, {id = "simon-wh/PAYDAY-2-BeardLib", _meta = "AssetUpdates", important = true, provider = "github", branch = "master"})
-			self[module._name] = module
-			table.insert(self._modules, module)
+			-- local module = ModAssetsModule:new(self, {id = "simon-wh/PAYDAY-2-BeardLib", _meta = "AssetUpdates", important = true, provider = "github", branch = "master"})
+			-- self[module._name] = module
+			-- table.insert(self._modules, module)
 		else
-			local module = ModAssetsModule:new(self, {id = 14924, version = self.config.version, _meta = "AssetUpdates", important = true, provider = "modworkshop"})
-			self[module._name] = module
-			table.insert(self._modules, module)
+			-- local module = ModAssetsModule:new(self, {id = 14924, semantic_version = true, version = self.config.version, _meta = "AssetUpdates", important = true, provider = "modworkshop"})
+			-- self[module._name] = module
+			-- table.insert(self._modules, module)
 		end
 	end
 
@@ -109,8 +110,8 @@ function BeardLib:LoadClasses(config, prev_dir)
 	local dir = Path:Combine(prev_dir or self.ModPath, config.directory)
     for _, c in ipairs(config) do
 		if c._meta == "class" then
-			self:DevLog("Loading class", tostring(p))
-			dofile(dir and Path:Combine(dir, c.file) or file)
+			self:DevLog("Loading class %s", tostring(c.file))
+			dofile(dir and Path:Combine(dir, c.file) or c.file)
 		elseif c._meta == "classes" then
 			self:LoadClasses(c, dir)
         end
@@ -430,22 +431,22 @@ Hooks:Add("MenuManagerOnOpenMenu", "BeardLibShowErrors", function(self, menu)
 		end
 
 		-- Add Crime.Net custo maps only button to the filters
-		function MenuCallbackHandler:beardlib_custom_maps_only(item)
-			local val = item:value() == "on"
-			BeardLib.Options:SetValue("CustomMapsOnlyFilter", val)
-			Global.game_settings.custom_maps_only = val
-			managers.network.matchmake:search_lobby(managers.network.matchmake:search_friends_only())
-		end
+		-- function MenuCallbackHandler:beardlib_custom_maps_only(item)
+		-- 	local val = item:value() == "on"
+		-- 	BeardLib.Options:SetValue("CustomMapsOnlyFilter", val)
+		-- 	Global.game_settings.custom_maps_only = val
+		-- 	managers.network.matchmake:search_lobby(managers.network.matchmake:search_friends_only())
+		-- end
 
 
-		local node = MenuHelperPlus:GetNode(nil, "crimenet_filters")
-		MenuHelperPlus:AddToggle({
-			id = "beardlib_custom_maps_only",
-			title = "beardlib_custom_maps_only",
-			node = node,
-			value = Global.game_settings.custom_maps_only,
-			position = 13,
-			callback = "beardlib_custom_maps_only",
-		})
+		-- local node = MenuHelperPlus:GetNode(nil, "crimenet_filters")
+		-- MenuHelperPlus:AddToggle({
+		-- 	id = "beardlib_custom_maps_only",
+		-- 	title = "beardlib_custom_maps_only",
+		-- 	node = node,
+		-- 	value = Global.game_settings.custom_maps_only,
+		-- 	position = 13,
+		-- 	callback = "beardlib_custom_maps_only",
+		-- })
 	end
 end)

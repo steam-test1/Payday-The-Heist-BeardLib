@@ -278,6 +278,9 @@ end
 
 function BeardLibSoundManager:Close()
 	if not self:IsClosed() then
+		for _, source in pairs(self.sources) do
+			source:close()
+		end
 		for _, buffer in pairs(self.buffers) do
 			if buffer.close then
 				buffer:close(not not buffer.data.unload)
@@ -324,7 +327,8 @@ function BeardLibSoundManager:Open()
 		return
 	end
 
-	if not XAudio or not SoundSource or not Unit then
+	-- if not XAudio or not SoundSource or not Unit then -- unit broken
+	if not XAudio or not SoundSource then
 		BeardLib:log("Something went wrong when trying to initialize the custom sound manager hook")
 		return
 	end
@@ -336,10 +340,10 @@ function BeardLibSoundManager:Open()
 	local sources = self.engine_sources
 	local create_source_hooks = self.create_source_hooks
 
-	local Unit = Unit
-	if type(Unit) == "userdata" then
-		Unit = getmetatable(Unit)
-	end
+	-- local Unit = Unit
+	-- if type(Unit) == "userdata" then
+	-- 	Unit = getmetatable(Unit)
+	-- end
 
 	local SoundDevice = SoundDevice
 	if type(SoundDevice) == "userdata" then
@@ -358,15 +362,15 @@ function BeardLibSoundManager:Open()
 		return source
 	end
 
-	local orig = Unit.sound_source
-	function Unit:sound_source(...)
-		local ss = orig(self, ...)
-		if ss then
-			ss:set_link_object(self)
-			ss:set_unit(self) -- Link object can change so keep track of the unit as well.
-		end
-		return ss
-	end
+	-- local orig = Unit.sound_source
+	-- function Unit:sound_source(...)
+	-- 	local ss = orig(self, ...)
+	-- 	if ss then
+	-- 		ss:set_link_object(self)
+	-- 		ss:set_unit(self) -- Link object can change so keep track of the unit as well.
+	-- 	end
+	-- 	return ss
+	-- end
 
 	function SoundSource:get_data()
 		--:(

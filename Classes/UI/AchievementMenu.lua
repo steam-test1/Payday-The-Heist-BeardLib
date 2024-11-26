@@ -5,9 +5,9 @@ local function thousand_sep(number)
 end
 
 local default_margin = 10
-local cash_icon = "guis/textures/pd2/blackmarket/cash_drop"
-local cc_icon = "guis/textures/pd2/ccoin"
-local xp_icon = "guis/textures/pd2/blackmarket/xp_drop"
+local cash_icon = "guis/textures/cash_drop"
+-- local cc_icon = "guis/textures/ccoin"
+local xp_icon = "guis/textures/xp_drop"
 
 BeardLibAchievementMenu = BeardLibAchievementMenu or BeardLib:MenuClass("Achievement")
 
@@ -131,7 +131,7 @@ end
 
 function BeardLibAchievementMenu:InitAccount()
 	local panel = self._account_progression
-	local steam_avatar = panel:Image({texture = "guis/texture/pd2/none_icon", img_color = Color.white, w = 64, h = 64})
+	local steam_avatar = panel:Image({texture = "guis/textures/none_icon", img_color = Color.white, w = 64, h = 64})
 	local stats = panel:Grid({
 		name = "Stats",
 		inherit_values = {offset = {0, 3}},
@@ -139,15 +139,15 @@ function BeardLibAchievementMenu:InitAccount()
 	})
 	local steam_name = managers.network.account:username()
 
-	if Steam then
+	if Steam and Steam.friend_avatar then
 		Steam:friend_avatar(2, Steam:userid(), function (texture)
-			local avatar = texture or "guis/textures/pd2/none_icon"
+			local avatar = texture or "guis/textures/none_icon"
 			steam_avatar:SetImage(avatar)
 		end)
 
 		BeardLib:AddDelayedCall("BeardLib_Recheck_Account_Avatar", 2, function()
 			Steam:friend_avatar(2, Steam:userid(), function (texture)
-				local avatar = texture or "guis/textures/pd2/none_icon"
+				local avatar = texture or "guis/textures/none_icon"
 				if alive(steam_avatar) then
 					steam_avatar:SetImage(avatar)
 				end
@@ -194,7 +194,7 @@ function BeardLibAchievementMenu:InitAccount()
 			position = function(item)
 				item:SetCenterY(rank_icon:CenterY())
 			end,
-			font = tweak_data.menu.pd2_large_font,
+			font = tweak_data.menu.default_font,
 			size = 16
 		})
 	end
@@ -318,7 +318,7 @@ function BeardLibAchievementMenu:DisplayAchievementsFromPackage(package)
 				w = achievement_button:Panel():w(),
 				y = achievement_button:Panel():h() - 16,
 				back_color = Color(255, 60, 60, 65) / 255,
-			}, {font = tweak_data.menu.pd2_medium_font, font_size = 16}, progress)
+			}, {font = tweak_data.menu.default_font, font_size = 16}, progress)
 		end
 	end
 
@@ -476,9 +476,9 @@ function BeardLibAchievementMenu:DisplayAchievementDetails(achievement)
 		elseif achievement:GetRewardType() == "offshore" then
 			reward_icon = cash_icon
 			reward_loc = "beardlib_achieves_reward_offshore"
-		elseif achievement:GetRewardType() == "cc" then
-			reward_icon = cc_icon
-			reward_loc = "beardlib_achieves_reward_cc"
+		-- elseif achievement:GetRewardType() == "cc" then
+		-- 	reward_icon = cc_icon
+		-- 	reward_loc = "beardlib_achieves_reward_cc"
 		end
 
 		achiev_reward_panel:Image({texture = reward_icon, h = 32, w = 32})

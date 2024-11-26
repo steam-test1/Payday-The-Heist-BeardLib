@@ -168,11 +168,7 @@ function FileIO:Exists(path)
 	if not path then
 		return false
 	end
-	if SystemFS and SystemFS.exists then
-		return SystemFS:exists(path)
-	else
-		return FileIO:DirectoryExists(path) or FileIO:FileExists(path)
-	end
+	return SystemFS_Exists(path) --FileIO:DirectoryExists(path) or FileIO:FileExists(path)
 end
 
 --- Same as CopyFileTo just lets you choose the name of the file
@@ -253,11 +249,7 @@ function FileIO:CanWriteTo(path)
 end
 
 function FileIO:Delete(path)
-	if SystemFS and SystemFS.delete_file then
-		SystemFS:delete_file(path)
-	else
-		error("[BeardLib] Cannot delete files or folders [SystemFS not available]")
-	end
+	return SystemFS_Delete_File(path)
 end
 
 function FileIO:DeleteEmptyFolders(path, delete_current) 

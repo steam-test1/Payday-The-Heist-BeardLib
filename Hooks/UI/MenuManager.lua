@@ -44,44 +44,6 @@ Hooks:PostHook(SystemMenuManager.GenericSystemMenuManager, "event_dialog_closed"
     BeardLib.IgnoreDialogOnce = false
 end)
 
-function MenuCallbackHandler:start_job(job_data)
-    if not managers.job:activate_job(job_data.job_id) then
-        return
-    end
-
-    if managers.job:current_level_data().custom or managers.job:current_job_data().custom then
-    	Global.game_settings.level_id = managers.job:current_level_id()
-    	Global.game_settings.mission = managers.job:current_mission()
-    	Global.game_settings.world_setting = managers.job:current_world_setting()
-    	Global.game_settings.difficulty = job_data.difficulty
-        Global.game_settings.one_down = job_data.one_down
-    	local matchmake_attributes = self:get_matchmake_attributes()
-    	if Network:is_server() then
-            SyncUtils:SyncGameSettings()
-    		managers.network.matchmake:set_server_attributes(matchmake_attributes)
-    		managers.menu_component:on_job_updated()
-    		managers.menu:active_menu().logic:navigate_back(true)
-    		managers.menu:active_menu().logic:refresh_node("lobby", true)
-    	else
-    		managers.network.matchmake:create_lobby(matchmake_attributes)
-    	end
-    else
-        orig_MenuCallbackHandler_start_job(self, job_data)
-    end
-end
-
-Hooks:Add("NetworkReceivedData", sync_game_settings_id, function(sender, id, data)
-    if id == sync_game_settings_id then
-        local split_data = string.split(data, "|")
-
-        managers.network._handlers.connection:sync_game_settings(tweak_data.narrative:get_index_from_job_id(split_data[1]),
-        tweak_data.levels:get_index_from_level_id(split_data[2]),
-        tweak_data:difficulty_to_index(split_data[3]),
-        Global.game_settings.one_down,
-        managers.network:session():peer(sender):rpc())
-    end
-end)
-
 Hooks:Add("BaseNetworkSessionOnPeerEnteredLobby", "BaseNetworkSessionOnPeerEnteredLobby_sync_game_settings", function(peer, peer_id)
     SyncUtils:SyncGameSettings(peer_id)
 end)
@@ -114,15 +76,3 @@ function QuickMenuPlus:init(title, text, options, dialog_merge)
     managers.system_menu:show_custom(self.dialog_data)
     return self
 end
-
-Hooks:PostHook(MenuManager, "setup_local_lobby_character", "BeardLibExtraOutfitSetupLocalLobby", function(self)
-    local local_peer = managers.network:session():local_peer()
-    local_peer:set_extra_outfit_string_beardlib(SyncUtils:ExtraOutfitString())
-end)
-
-Hooks:PostHook(MenuCallbackHandler, "_update_outfit_information", "BeardLibExtraOutfitUpdateLocalOutfit", function(self)
-    if managers.network:session() then
-        local local_peer = managers.network:session():local_peer()
-        local_peer:set_extra_outfit_string_beardlib(SyncUtils:ExtraOutfitString())
-    end
-end)

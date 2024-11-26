@@ -133,7 +133,7 @@ BeardLibPackageManager.EXT_CONVERT = {dds = "texture", png = "texture", tga = "t
 
 local CP_DEFAULT = BeardLib:GetPath() .. "Assets/units/default_cp.cooked_physics"
 function BeardLibPackageManager:LoadConfig(directory, config, mod, settings)
-	if not DB.create_entry then
+    if not DB.create_entry then
 		self:Err("Create entry function does not exist, cannot add files.")
 		return
 	end

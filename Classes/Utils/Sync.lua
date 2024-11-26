@@ -75,7 +75,7 @@ function Sync:GetJobString()
     local job_id = managers.job:current_job_id()
     local level = tweak_data.levels[level_id]
     local level_name = managers.localization:to_upper_text(level and level.name_id or "")
-    local mod = BeardLib.Frameworks.Map:GetMapByJobId(job_id)
+    local mod = BeardLib.Utils:GetMapByLevelId(level_id) --BeardLib.Utils:GetMapByJobId(job_id)
     local update = {}
     if mod then
         local mod_assets = mod:GetModule(ModAssetsModule.type_name)

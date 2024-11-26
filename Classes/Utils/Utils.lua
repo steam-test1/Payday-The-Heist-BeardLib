@@ -257,6 +257,32 @@ function Utils:FindModWithMatchingPath(path)
     return nil
 end
 
+function Utils:GetMapByJobId(job_id)
+    for _, mod in pairs(BeardLib.Mods) do
+        if mod._modules then
+            for _, module in pairs(mod._modules) do
+                if module.type_name == "narrative" and module._config and module._config.id == job_id then
+                    return mod
+                end
+            end
+        end
+    end
+    return nil
+end
+
+function Utils:GetMapByLevelId(level_id)
+    for _, mod in pairs(BeardLib.Mods) do
+        if mod._modules then
+            for _, module in pairs(mod._modules) do
+                if module.type_name == "level" and module._config and module._config.id == level_id then
+                    return mod
+                end
+            end
+        end
+    end
+    return nil
+end
+
 function Utils:FindModWithPath(path)
     for _, mod in pairs(BeardLib.Mods) do
         if mod.ModPath == path then

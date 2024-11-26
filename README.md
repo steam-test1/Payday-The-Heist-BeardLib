@@ -1,4 +1,4 @@
- PDTH BeardLib Alpha
+PDTH BeardLib Alpha
 
 This a very work in progress port of BeardLib to PDTH
 
