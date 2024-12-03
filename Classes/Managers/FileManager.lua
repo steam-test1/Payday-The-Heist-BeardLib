@@ -1,9 +1,6 @@
 BeardLibFileManager = BeardLibFileManager or BeardLib:ManagerClass("File")
 Global.fm = Global.fm or {added_files = {}}
 
-local dyn_pkg = "packages/dyn_resources"
-
-
 function BeardLibFileManager:init()
 	self.const = {h_preprocessSF = "BeardLibPreProcessScriptData", h_postprocessSF = "BeardLibProcessScriptData"}
 	self.process_modes = {
@@ -118,12 +115,6 @@ function BeardLibFileManager:ForceEarlyLoad(ids_ext, ids_path, file_path)
 	else
 		BeardLib:DevLog("Loaded file %s.%s", k_path, k_ext)
 	end
-
-	if not PackageManager:loaded(dyn_pkg) then
-		PackageManager:load(dyn_pkg)
-	end
-
-	PackageManager:package(dyn_pkg):load_temp_resource(ext, path, nil, true)
 end
 
 local texture_key = "8c5b5ab050e16853"
@@ -143,7 +134,10 @@ function BeardLibFileManager:LoadFileFromDB(ext, path)
 
 	local k_ext = ext:key()
 
-	-- blt.wren_io.invoke(BeardLib.Utils:GetNameFromModPath(BeardLib.ModPath), "AssetLoader", nil, "load", ext, path)
+	if blt.wren_io then
+		blt.wren_io.invoke(BeardLib.Utils:GetNameFromModPath(BeardLib.ModPath), "AssetLoader", nil, "load", ext, path)
+	end
+
     Global.fm.added_files[k_ext] = Global.fm.added_files[k_ext] or {}
 	Global.fm.added_files[k_ext][path:key()] = {path = path}
 end

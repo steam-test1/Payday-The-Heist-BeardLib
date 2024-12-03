@@ -317,3 +317,15 @@ end
 function table.random(t)
 	return t[math.random(#t)]
 end
+
+function table.filter_list(t, func)
+	local res = {}
+
+	for _, value in pairs(t) do
+		if func(value) then
+			table.insert(res, value)
+		end
+	end
+
+	return res
+end
