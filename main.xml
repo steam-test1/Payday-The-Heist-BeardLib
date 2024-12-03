@@ -55,6 +55,7 @@
 			<hook source_file="lib/tweak_data/dlctweakdata" file="OtherHooks.lua"/>
 			<hook source_file="lib/tweak_data/tweakdata" file="OtherHooks.lua"/>
 			<hook source_file="lib/units/beings/player/playerdamage" file="Fixes.lua"/>
+			<hook source_file="lib/tweak_data/hudiconstweakdata" file="OtherHooks.lua"/>
 
 			<hooks directory="Network">
 				<hook source_file="lib/network/base/networkpeer" file="NetworkPeer.lua"/>

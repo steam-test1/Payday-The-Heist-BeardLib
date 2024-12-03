@@ -11,23 +11,23 @@ if F == "tweakdata" then
 		"hox"
 	}
 
+	if BLT:GetGame() == "pdth" then
+		tweak_data.menu.pd2_large_font = "fonts/font_univers_530_bold"
+		tweak_data.menu.pd2_medium_font = "fonts/font_univers_530_medium"
+		tweak_data.menu.pd2_small_font = "fonts/font_univers_530_medium"
+		tweak_data.menu.default_font = "fonts/font_univers_530_bold"
+	end
 	for _, framework in pairs(BeardLib.Frameworks) do framework:RegisterHooks() end
+elseif F == "hudiconstweakdata" then
 	--Makes sure that rect can be returned as a null if it's a custom icon
 	local get_icon = HudIconsTweakData.get_icon_data
 	function HudIconsTweakData:get_icon_data(id, rect, ...)
 		local icon, texture_rect = get_icon(self, id, rect, ...)
 		local data = self[id]
 		if not rect and data and data.custom and not data.texture_rect then
-			texture_rect = ni
+			texture_rect = nil
 		end
 		return icon, texture_rect
-	end
-
-	if BLT:GetGame() == "pdth" then
-		tweak_data.menu.pd2_large_font = "fonts/font_univers_530_bold"
-		tweak_data.menu.pd2_medium_font = "fonts/font_univers_530_medium"
-		tweak_data.menu.pd2_small_font = "fonts/font_univers_530_medium"
-		tweak_data.menu.default_font = "fonts/font_univers_530_bold"
 	end
 elseif F == "gamesetup" then
 	Hooks:PreHook(GameSetup, "paused_update", "GameSetupPausedUpdateBase", function(self, t, dt)
