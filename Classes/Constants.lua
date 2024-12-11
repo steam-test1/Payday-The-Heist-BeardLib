@@ -70,17 +70,5 @@ BeardLib.Constants = BeardLib.Constants or {
         xml = true,
         blacklist = true
     },
-    ClassTypes = {Manager = 1, Framework = 2, Module = 3, Menu = 4},
-    Sync = {
-        StageSettings = "BeardLib_sync_stage_settings",
-        GameSettings = "BeardLib_sync_game_settings",
-        LobbyLevelId = "BeardLib_lobby_sync_update_level_id",
-        SendOutfit = "BCO", --BeardLib compact outfit
-        ExtraOutfitSplitSize = 200, -- What size chunks to split extra outfit into.
-        SendExtraOutfit = "BEO", --BeardLib extra outfit
-        SendExtraOutfitDone = "BEOD", -- We need to split up the data over several messages if it's too big.
-        OutfitVersion = "1.0",
-        SetEqippedWeapon = "BSEW", --BeardLib set equipped weapon
-        WeaponVersion = "2.0",
-    }
+    ClassTypes = {Manager = 1, Framework = 2, Module = 3, Menu = 4}
 }

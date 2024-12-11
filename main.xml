@@ -48,7 +48,6 @@
 			<hook source_file="lib/managers/localizationmanager" file="OtherHooks.lua" />
 			<hook source_file="lib/managers/mission/elementinteraction" file="Fixes.lua"/>
 			<hook source_file="lib/managers/missionmanager" file="OtherHooks.lua"/>
-			<hook source_file="lib/network/base/handlers/connectionnetworkhandler" file="Fixes.lua"/>
 			<hook source_file="lib/setups/gamesetup" file="OtherHooks.lua"/>
 			<hook source_file="lib/setups/setup" file="OtherHooks.lua"/>
 			<hook source_file="lib/states/ingamewaitingforplayers" file="Fixes.lua"/>
@@ -56,11 +55,6 @@
 			<hook source_file="lib/tweak_data/tweakdata" file="OtherHooks.lua"/>
 			<hook source_file="lib/units/beings/player/playerdamage" file="Fixes.lua"/>
 			<hook source_file="lib/tweak_data/hudiconstweakdata" file="OtherHooks.lua"/>
-
-			<hooks directory="Network">
-				<hook source_file="lib/network/base/networkpeer" file="NetworkPeer.lua"/>
-				<hook source_file="lib/network/matchmaking/networkmatchmakingsteam" file="NetworkMatchmakingSteam.lua"/>
-			</hooks>
 
 			<hooks directory="World">
 				<hook source_file="core/lib/managers/coresequencemanager" file="CoreSequenceManager.lua"/>
@@ -103,7 +97,6 @@
 				<class file="YAML.lua"/>
 				<class file="XML.lua"/>
 				<class file="Builders.lua"/>
-				<class file="Sync.lua"/>
 			</classes>
 
 			<classes directory="Managers">
