@@ -39,7 +39,8 @@ Hooks:PostHook(BLTNotificationsGui, "_setup", "BeardLibModsManagerSetup", functi
         color = self._beardlib_accent,
         texture = "guis/textures/beardlib_logo",
         w = 28,
-        h = 28
+        h = 28,
+        layer = 900
     })
 
     local icon = self._beardlib_updates:bitmap({
@@ -47,7 +48,7 @@ Hooks:PostHook(BLTNotificationsGui, "_setup", "BeardLibModsManagerSetup", functi
         texture = "guis/textures/menu_ui_icons",
         texture_rect = {93, 2, 32, 32},
         color = self._beardlib_accent,
-        layer = 5,
+        layer = 900,
         w = 20,
         h = 20,
         y = 8,
@@ -58,7 +59,7 @@ Hooks:PostHook(BLTNotificationsGui, "_setup", "BeardLibModsManagerSetup", functi
         name = "UpdatesCount",
         font_size = 16,
         font = tweak_data.menu.pd2_medium_font,
-        layer = 10,
+        layer = 900,
         color = self._beardlib_accent:contrast(),
         text = "0",
         align = "center",
@@ -72,7 +73,8 @@ Hooks:PostHook(BLTNotificationsGui, "_setup", "BeardLibModsManagerSetup", functi
         h = 28,
         y = 8,
         x = self._beardlib_updates:right() + 4,
-        color = self._beardlib_accent
+        color = self._beardlib_accent,
+        layer = 900
     })
 end)
 

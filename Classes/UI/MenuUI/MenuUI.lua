@@ -9,13 +9,13 @@ function MenuUI:init(params)
     end
     table.merge(self, params)
     self.type_name = "MenuUI"
-    self.layer = self.layer or 200 --Some fucking layer that is higher than most vanilla menus
+    self.layer = self.layer or 500 --Some fucking layer that is higher than most vanilla menus
     self._ws = managers.gui_data:create_fullscreen_workspace()
 	self._ws:connect_keyboard(Input:keyboard())
     tweak_data.gui.MOUSE_LAYER = 9999999999 --nothing should have a layer that is bigger than mouse tbh
     self._panel = self._ws:panel():panel({
         name = self.name or self.type_name,
-        alpha = 0, layer = self.layer
+        alpha = 0, layer = 1000
     })
     self._panel:key_press(ClassClbk(self, "KeyPressed"))
     self._panel:key_release(ClassClbk(self, "KeyReleased"))

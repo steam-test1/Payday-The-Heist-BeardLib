@@ -71,7 +71,7 @@ function BeardLib:Init()
 
 	if ModAssetsModule then
 		if self.Options:GetValue("GithubUpdates") then
-			-- local module = ModAssetsModule:new(self, {id = "simon-wh/PAYDAY-2-BeardLib", _meta = "AssetUpdates", important = true, provider = "github", branch = "master"})
+			-- local module = ModAssetsModule:new(self, {id = "steam-test1/Payday-The-Heist-BeardLib", _meta = "AssetUpdates", important = true, provider = "github", branch = "main"})
 			-- self[module._name] = module
 			-- table.insert(self._modules, module)
 		else
